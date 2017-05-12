@@ -118,5 +118,6 @@ Filebeat采用k8s DaemonSet部署，这样每个k8s minion节点都会启动一�
 
 
 # Tips
+1. Elasticsearch的data节点部署在不同的k8s minion节点上，可以通过spec.template.spec.nodeSelector来实现。好处是可以均匀使用k8s的资源，而且当某个minion节点宕机后，可以加速Elasticsearch集群的恢复
 1. Elasticsearch集群比较耗费资源(特别是内存)，如果k8s集群资源充沛，可以通过部署文件中的ES_JAVA_OPTS和resources.request/resources.limits等参数进行资源的合理配置
 1. ES data节点的数据持久化可以采用k8s的多种类型的volume，但是我们经过测试，如果volume对应的底层存储介质只是普通硬盘的话（非ssd），建议采用hostpath volume，相当于数据持久化到本地disk，省去了网络开销。当然，如果不差钱的话，尽量用ssd硬盘
